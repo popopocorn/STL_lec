@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="2025년 1학기 STL 강의저장.txt" />
+    <Text Include="int 1000개.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h" />

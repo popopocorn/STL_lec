@@ -26,6 +26,9 @@
     <Text Include="2025년 1학기 STL 강의저장.txt">
       <Filter>리소스 파일</Filter>
     </Text>
+    <Text Include="int 1000개.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h">
