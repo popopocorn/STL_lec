@@ -1,35 +1,55 @@
 //----------------------------------------------------------------------------
 // 2025/1학기 STL
 //----------------------------------------------------------------------------
-// 많은 수의 자료 다루기 - int를 메모리 크기 그대로 저장하거
+// 많은 수의 자료 다루기 - Dog를 읽고 쓸 수 있기
 //----------------------------------------------------------------------------
 #include<iostream>
 #include"save.h"
 //----------------------------------------------------------------------------
+#include<string>
 #include<fstream>
 #include<array>
-#include<algorithm>
 //----------------------------------------------------------------------------
 
 
-// [문제] 진짜 랜덤 10만개에는 int값이 기록되어 있다
-// 파일은 binary mode로 열었고, 파일의 write함수로 메모리 그대로 기록하였다.
-// 파일에 있는 모든 int값을 메모리에 저장하여라
-// 가장 작은 값과 가장 큰값을 찾아 화면에 출력하라
+// 파일 Dog 10만 마리에는 Dog객체 10만개가 저장되어 있다
+// 파일은 binary모드로 열었고, Dog 객체는 파일의 write 함수를 사용하여 메모리에 저장하였다.
+// 메인코드가 수정없이 실행 될 수 있도록 필요한 코딩을 추가하라
 
+class Dog {
+public:
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		os << "id - " << dog.id << ", name: " << dog.name << std::endl;
+		return os;
+	}
+	friend std::istream& operator>>(std::istream& is, Dog& dog) {
+		
+		return is.read((char*)&dog, sizeof(dog));
+	}
+private:
+	std::string name;
+	int id;
+};
+
+std::array < Dog, 100'000> dogs;
 
 int main() {
-	std::ifstream in { "진짜 랜덤 10만개", std::ios::binary };
+	
+	std::ifstream in{ "Dog 10만 마리", std::ios::binary };
 	if (not in) {
-		std::cout << "파일을 열 수 없습니다.\n";
-
+		std::cout << "파일을 읽지 못했습니다\n";
+		return 20250324;
 	}
 
-	std::array<int, 100'000> a;
-	in.read((char*)a.data(), sizeof(int) * a.size());
+	for (int i = 0; i < dogs.size(); ++i) {
+		in >> dogs[i];
+	}
 
-	std::cout << "최댓값: " << *std::minmax_element(a.begin(), a.end()).second << std::endl;
-	std::cout << "최솟값: " << *std::minmax_element(a.begin(), a.end()).first << std::endl;
-	//save("main.cpp");
+	//출력
+	for (const Dog& dog : dogs) {
+		std::cout << dog;
+	}
+
+	save("main.cpp");
 	
 }
