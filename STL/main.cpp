@@ -1,48 +1,39 @@
 //----------------------------------------------------------------------------
 // 2025/1학기 STL
 //----------------------------------------------------------------------------
-// Callable - 호출 가능한 타입
-// 1.함수
+// Callable - 호출 가능한 타입 -> 모든 호출 가능 타입을 대표하는 function
 //----------------------------------------------------------------------------
 #include<iostream>
 #include"save.h"
 //----------------------------------------------------------------------------
-#include<array>
-#include<random>
-#include<print>
-#include<ranges>
-#include<algorithm>
-#include<chrono>
+#include<fstream>
 //----------------------------------------------------------------------------
-std::default_random_engine dre;
-std::uniform_int_distribution uid{ 0, 9'999'999 };
 
 
-// [문제] 랜덤 int값[ 0, 10'000'000 ) 1000만개를 저장할 메모리를 확보하고, 값을 채워라
-// 시작 - qsort로 오름차순 정렬하라
-// 정렬 결과 중, 앞에서 1000개만 출력하라
+// [과제]  eclass에서 받은 파일 Dog 10만마리에는
+// class Dog 객체가 정확하게 10만개가 저장되어있다
+// 파일은 
+//			ofstream out{"Dog 10만마리"};
+// Dog 타입의 객체 dog를
+//			out << dog;
+//
+
+class Dog {
+private:
+	size_t num;			
+	std::string name;	
+
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		return os << dog.num << " " << dog.name << " ";
+	}
+
+};
+// [문제] 파일에 저장ㄷ된 10만개의 Dog객체를 모두 읽어 메모리에 저장하라
+// 마지막 객체의 정보를 화면에 출력하고, 출력된 내용을 답지에도 적어라
+// 메모리에 있는 Dog객체를 name의 길이기준 오름차순으로 정렬하라
+// 정렬한 마지막 객체의 정보를 화면에 출력하고 답지에도 적는다
 // 
-
-std::array<int, 10'000'000> arr;
-
-bool 내림차순(int a, int b) { // const를 붙여도 안붙여도 상관 없다
-	return a > b;
-}
-
 int main() {
-	for (int& i : arr) {
-		i = uid(dre);
-	}
-	//sort로 내림차순 정렬 
-	//시간을 보자
-	auto b = std::chrono::high_resolution_clock::now();
-	sort(arr.begin(), arr.end(), 내림차순);
-	auto e = std::chrono::high_resolution_clock::now();
-
-	std::cout << "정렬시간: " << e - b << std::endl;
 	
-	for (int num : arr | std::views::take(1000)) {
-		std::print("{:8}", num);
-	}
 	save("main.cpp");
 }
