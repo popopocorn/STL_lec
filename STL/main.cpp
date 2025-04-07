@@ -1,39 +1,55 @@
 //----------------------------------------------------------------------------
 // 2025/1학기 STL
 //----------------------------------------------------------------------------
-// Callable - 호출 가능한 타입 -> 모든 호출 가능 타입을 대표하는 function
+// class STRING 작성 시작 - sdt::string 모방
+// 1.OOPL - 특정 자료형 만을 위한 코딩 - virtual, polymorphism
+// 2.Generic - 자료형과 관계 없는 코딩(함수 - alghrothm
+//									   클래스 - 자료구조)
+//  ㄴ standard "TEMPLETE" library
 //----------------------------------------------------------------------------
 #include<iostream>
 #include"save.h"
 //----------------------------------------------------------------------------
-#include<fstream>
+#include<string>
+#include<memory>
 //----------------------------------------------------------------------------
 
+class STRING {
+public:
+	STRING(const char* c) : len{ strlen(c) } {	//인자에서 t[N] - t*로 collapsing
+		str.release();							// 멤버에서 초기화 해두면 할 필요는 없음
+		str = std::make_unique<char[]>(len);
+		memcpy(str.get(), c, len);					// DMA가 가능한 명령
+	}
 
-// [과제]  eclass에서 받은 파일 Dog 10만마리에는
-// class Dog 객체가 정확하게 10만개가 저장되어있다
-// 파일은 
-//			ofstream out{"Dog 10만마리"};
-// Dog 타입의 객체 dog를
-//			out << dog;
-//
-
-class Dog {
+	size_t size() const {
+		return len;
+	}
 private:
-	size_t num;			
-	std::string name;	
+	std::unique_ptr<char[]> str{};
+	size_t len{};
 
-	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
-		return os << dog.num << " " << dog.name << " ";
+
+	friend std::ostream& operator<<(std::ostream& os, const STRING& s) {
+		for (int i = 0; i < s.len; ++i) {
+			os << s.str[i];
+		}
+		return os;
 	}
 
 };
-// [문제] 파일에 저장ㄷ된 10만개의 Dog객체를 모두 읽어 메모리에 저장하라
-// 마지막 객체의 정보를 화면에 출력하고, 출력된 내용을 답지에도 적어라
-// 메모리에 있는 Dog객체를 name의 길이기준 오름차순으로 정렬하라
-// 정렬한 마지막 객체의 정보를 화면에 출력하고 답지에도 적는다
-// 
 int main() {
+
+	STRING s{ "std::string을 모방한 클래스" };
+
+	std::cout << "s가 관리하는 바이트 수 - " << s.size() << std::endl;
+
+	//STRING t = s;
+
 	
+	std::cout << s <<std::endl;
+	//std::cout << t <<std::endl;
+
 	save("main.cpp");
 }
+
