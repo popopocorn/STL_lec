@@ -9,27 +9,18 @@
 using namespace std;
 //----------------------------------------------------------------------------
 #include<vector>
+
 //----------------------------------------------------------------------------
 
 extern bool 관찰;
 
 
-
+// [문제] 키보드에서 단어를 입력받아 오름차순으로 정렬 후 출력하라
 int main() {
-
-	vector<int> v;
-
-	cout << "원소 개수 - " << v.size() << endl;
-	cout << "담을 수 있는 원소 개수 - " << v.capacity() << endl;
-	cout << "자원 주수 - " << v.data() << endl;
-
-	cout << endl;
-	cout << "원소 한 개 추가 한 후 vector v의 field" << endl;
-	v.push_back(1);
-
-	cout << "원소 개수 - " << v.size() << endl;
-	cout << "담을 수 있는 원소 개수 - " << v.capacity() << endl;
-	cout << "자원 주수 - " << v.data() << endl;
-
+	관찰 = true;
+	vector<STRING> v;
+	
+	v.emplace_back( "12345" );
+	
 	save("main.cpp");
 }
