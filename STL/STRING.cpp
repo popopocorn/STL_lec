@@ -5,6 +5,7 @@
 // 2025. 4. 10 - 복사생성/복사할당연산자, 스페셜 함수의 동작 관찰	
 // 2025. 4. 14 - 선택적 관찰하도록 전역변수를 사용	
 // 2025. 4. 14 - 이동의미론(move semantics) 구현 	
+// 2025. 5. 1 - operator==
 //-----------------------------------------------------------------------------
 #include <memory>
 #include <print>
@@ -112,6 +113,11 @@ STRING& STRING::operator=(STRING&& other)
 bool STRING::operator<(const STRING& rhs) const
 {
 	return size() < rhs.size();
+}
+
+bool STRING::operator==(const STRING& rhs) const 
+{
+	return std::equal(p.get(), p.get() + num, &rhs.p[0], &rhs.p[rhs.num]);
 }
 
 size_t STRING::size() const
