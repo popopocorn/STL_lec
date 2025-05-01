@@ -3,9 +3,12 @@
 //----------------------------------------------------------------------------
 // STL container - Containers are objects that store other objects.
 // array<T, N> - 유일하게 크기가 고정
-// vector<T> - random access가 가능, []연산자 제공O(1)시간에 access 가능, push_back도 O(1)
-// deque<T> - random access가 가능, []연산자 제공O(1)시간에 access 가능, O(1) push_front, push_back
-// 
+// vector<T> - random access가 가능, []연산자 제공O(1)시간에 access 가능, 
+//			push_back도 O(1)
+// deque<T> - random access가 가능, []연산자 제공O(1)시간에 access 가능, 
+//			O(1) push_front, push_back
+// List<T> - O(1) insert, delete, 자료 구조를 활용한 전용 함수 제공
+//														(remove, sort, splice)
 //----------------------------------------------------------------------------
 #include<iostream>
 #include"save.h"
