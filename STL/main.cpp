@@ -26,7 +26,9 @@ extern bool 관찰;
 
 
 int main() {
-	
+
+
+	save("main.cpp");
 	// [문제] "main.cpp"의 단어를 list에 모두 저장하라
 
 
@@ -34,30 +36,16 @@ int main() {
 	if (not in) {
 		return 90909090;
 	}
-	STRING t;
 
 	list<STRING> words{ istream_iterator<STRING>{in},{} };
+	
+	// [문제] 단어들에서 길이가 5인 것들만 화면에 출력하라
 
+	copy(words.begin(), words.end(), 
+				ostream_iterator<STRING>{cout, "\n"}
+	);
 
-	// [문제] 사용자가 입력한 단어가 리스트에 있는 지 알려주자
-	// 단어가 없으면 없다고 출력하고, 있으면 리스트의 몇번 째 단어인지 출력하라.
+	// 다음시간에 계속...!!!!!!!!!!!
 
-	while (true)
-	{
-		STRING w;
-		cout << "찾을 단어는: ";
-		cin >> w;
-		auto finded = find(words.begin(), words.end(), w);
-		if (finded != words.end()) {
-			cout << *finded;
-		}
-		else {
-			cout << "없음\n";
-		}
-
-
-	}
-
-
-	save("main.cpp");
+	
 }
