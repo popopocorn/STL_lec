@@ -6,6 +6,8 @@
 // 2025. 4. 14 - 선택적 관찰하도록 전역변수를 사용	
 // 2025. 4. 14 - 이동의미론(move semantics) 구현 	
 // 2025. 5. 1 - operator==
+// 2025. 5. 15 - sdt:string과 같이 사전식 정렬 하도록 수정
+// 2025. 5. 15 - begin, end 제공
 //-----------------------------------------------------------------------------
 #include <memory>
 #include <print>
@@ -110,9 +112,10 @@ STRING& STRING::operator=(STRING&& other)
 
 
 // 기본정렬을 위한 < - 2025. 4. 14
+// 사전식 정렬을 위한 수정 < - 2025. 5. 15
 bool STRING::operator<(const STRING& rhs) const
 {
-	return size() < rhs.size();
+	return std::lexicographical_compare(p.get(), p.get() + num, &rhs.p[0], &rhs.p[num]);
 }
 
 bool STRING::operator==(const STRING& rhs) const 
@@ -123,6 +126,16 @@ bool STRING::operator==(const STRING& rhs) const
 size_t STRING::size() const
 {
 	return num;
+}
+
+char* STRING::begin() const 
+{
+	return &p[0];//p.get()
+}
+
+char* STRING::end() const 
+{
+	return &p[num];
 }
 
 std::ostream& operator<<(std::ostream& os, const STRING& s)
