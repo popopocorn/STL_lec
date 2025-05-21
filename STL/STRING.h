@@ -5,10 +5,33 @@
 // 2025. 4. 14 - 이동의미론(move semantics) 구현
 // 2025. 5. 1 - operator==
 // 2025. 5. 15 - begin, end 제공
+// 2025. 5. 19 - rbegin, rend 제공 - class로만 가능
 //-----------------------------------------------------------------------------
 #pragma once
 #include <memory>
 #include <iostream>
+
+
+//iterator adaptor - 반복자의 인터페이스르 제공하지만 실제로는 다르게 동작
+class STRING_Reverse_Iterator {
+public:
+	explicit STRING_Reverse_Iterator(char* p) : p{ p } {};
+	//반복자라면 제공해야할 기본동작이 있다
+	void operator++() {
+		--p;
+	}
+	char operator*() const {
+		 return *(p - 1);
+	}
+	bool operator==(STRING_Reverse_Iterator& rhs) const{
+		return p == rhs.p;
+	}
+	
+
+private:
+	char* p;
+
+};
 
 class STRING {
 public:
@@ -38,6 +61,13 @@ public:
 	char* begin() const;
 
 	char* end() const;
+
+	//2025. 5. 19
+	STRING_Reverse_Iterator rbegin() const;
+
+	STRING_Reverse_Iterator rend() const;
+	
+
 
 private:
 	size_t num{};

@@ -8,6 +8,7 @@
 // 2025. 5. 1 - operator==
 // 2025. 5. 15 - sdt:string과 같이 사전식 정렬 하도록 수정
 // 2025. 5. 15 - begin, end 제공
+// 2025. 5. 19 - rbegin, rend 제공
 //-----------------------------------------------------------------------------
 #include <memory>
 #include <print>
@@ -136,6 +137,18 @@ char* STRING::begin() const
 char* STRING::end() const 
 {
 	return &p[num];
+}
+
+
+STRING_Reverse_Iterator STRING::rbegin() const
+{
+
+	return STRING_Reverse_Iterator(&p[num]);
+}
+
+STRING_Reverse_Iterator STRING::rend() const
+{
+	return STRING_Reverse_Iterator(&p[0]);
 }
 
 std::ostream& operator<<(std::ostream& os, const STRING& s)

@@ -2,32 +2,33 @@
 // 2025 / 1학기 STL
 // 6/19 목요일 15주2일 - 기말시험
 //----------------------------------------------------------------------------
-// 반복자 - 서로 다른 자료구조에서 c++프로그램이 동일한 방식으로
-//			가능하게 해주는 것
-// Iterators are a generalization of pointers that allow a C++ program to work 
-// with different data structures in a uniform manner.
+// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이 순회 할 수 있도록
+//			제공하는 인터페이스
+// 컨테이너에 따라서(자료 구조가 서로 다르기 때문에) 반복자가 할 수 있는 일이 서로 다름
+// 
 //----------------------------------------------------------------------------
 #include<iostream>
 #include"save.h"
 #include"STRING.h"
 using namespace std;
 //----------------------------------------------------------------------------
-#include<vector>
+#include<iterator>
 //----------------------------------------------------------------------------
 
 extern bool 관찰;
 
+//반복자는 서로 다르다 - 6개의 category
 
+
+void f(const ostream_iterator<char>& p) 
+{
+	cout << typeid(ostream_iterator<char>::iterator_category).name() << endl;
+}
 
 int main() {
-
-	STRING s{ "2025. 5. 15" };
-
-
-	// [예고] s를 거꾸로 출력하시오
-	for (char c : s)
-		cout << c << "----";
-	cout << endl;
-
+	// [문제] 함수f는 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력한다
+	// 함수f를 정의하라
+	
+	f(ostream_iterator<char>{cout});
 	save("main.cpp");
 }
