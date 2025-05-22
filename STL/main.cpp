@@ -13,22 +13,26 @@
 using namespace std;
 //----------------------------------------------------------------------------
 #include<iterator>
+#include<algorithm>
 //----------------------------------------------------------------------------
 
 extern bool 관찰;
 
 //반복자는 서로 다르다 - 6개의 category
 
-
-void f(const ostream_iterator<char>& p) 
+template<class 반복자>
+void f(const 반복자& p)
 {
-	cout << typeid(ostream_iterator<char>::iterator_category).name() << endl;
+	cout << typeid(반복자::iterator_category).name() << endl;
+
 }
 
 int main() {
-	// [문제] 함수f는 반복자를 인자로 받아 어떤 종류의 반복자인지 화면에 출력한다
-	// 함수f를 정의하라
-	
-	f(ostream_iterator<char>{cout});
-	save("main.cpp");
+	STRING s{"the quick brown fox jumps over the lazy dog"};
+	sort(s.begin(), s.end());
+
+	cout << s;
+
+	//save("main.cpp");
 }
+

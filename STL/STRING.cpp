@@ -129,14 +129,14 @@ size_t STRING::size() const
 	return num;
 }
 
-char* STRING::begin() const 
+STRING_Iterator STRING::begin() const
 {
-	return &p[0];//p.get()
+	return STRING_Iterator(&p[0]);//p.get()
 }
 
-char* STRING::end() const 
+STRING_Iterator STRING::end() const
 {
-	return &p[num];
+	return STRING_Iterator(&p[num]);
 }
 
 
