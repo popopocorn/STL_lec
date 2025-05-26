@@ -8,6 +8,8 @@
 // 2025. 5. 19 - rbegin, rend 제공 - class로만 가능
 // 2025. 5. 22 - 반복자가 질문에 응답하도록 한다
 // 2025. 5. 22 - begiin과 end를 class로 코딩하여 반복자를 return 하도록 한다
+// 2025. 5. 26 - sort가능하도록 필요한 연산자를 모두 코딩
+//				(c++연산자 오버로딩을 잘 이해해야 할 수 있다)
 //-----------------------------------------------------------------------------
 #pragma once
 #include <memory>
@@ -58,58 +60,80 @@ public:
 	using iterator_category = std::random_access_iterator_tag;
 
 public:
+	//2025. 5. 26
+	//special 생성자인 default ctor를 요구
+	STRING_Iterator() = default;
+
 	STRING_Iterator(char* p) : p{ p } {};
 	
 
 	// 이것의 의미를 제대로 코딩해야한다
-	STRING_Iterator& operator++() 
+	//2025. 5. 26수정
+	STRING_Iterator& operator++()
 	{
 		++p;
 		return *this;
 	}
+
+	//2025. 5. 26
+	// 이 연산의 결과가 l-value가 아니다
+	// char-> reference(char&)로 변경, 이후 불변성이 깨지므로 const 제거
+	char& operator*()
+	{
+		return *p;
+	}
+
+	//cv-qualifier는 오버로딩으로 구분 가능하다
+	char& operator*() const
+	{
+		return *p;
+	}
+
+	//죽였다가 안돼서 다시 살림
+	//안되는 이유 알아보기
+	bool operator==(const STRING_Iterator& rhs) const 
+	{
+		return p == rhs.p;
+	}
+
+
+	//sort가 동작하도록 연산자 추가
+	
+	difference_type operator-(const STRING_Iterator rhs) const
+	{
+		return p - rhs.p; // 연산의 결과가 클래스의 불변성을 해치나 관찰
+	}
+
+	// 멤버 변수가 변하고, 자기 자신을 리턴해 줘야 함으로
+	// STRING_iterator&를 반환
 
 	STRING_Iterator& operator--()
 	{
 		--p;
 		return *this;
 	}
+
+	// 모든 comparison operation을 할 수 있게 <=>를 정의해 본다
+	// <, <=,==, !=, >=, >
+	//return type 공부해보기
+	auto operator<=>(const STRING_Iterator rhs) const
+	{
+		return p <=> rhs.p;
+	 }
 	
-	reference operator*() const 
+	//임시면 충분하기 때문에 &없이
+	STRING_Iterator operator+(difference_type n) const
 	{
-		return *p;
-	}
-	
-	bool operator==(const STRING_Iterator& rhs) const 
-	{
-		return p == rhs.p;
+		return p + n;
 	}
 
-	STRING_Iterator operator-(int n) const
+	STRING_Iterator operator-(difference_type n) const
 	{
-		return STRING_Iterator(p - n);
+		return p - n;
 	}
-
-	STRING_Iterator operator+(int n) const
-	{
-		return STRING_Iterator(p + n);
-	}
-
-	bool operator<(const STRING_Iterator rhs) const
-	{
-		return p < rhs.p;
-	}
-
-
-	//sort가 동작하도록 연산자 추가
-
-	difference_type operator-(const STRING_Iterator& rhs) const
-	{
-		return p - rhs.p;
-	}
-
 
 private:
-	char* p;
+	char* p{ }; //=nullptr
 
 };
 

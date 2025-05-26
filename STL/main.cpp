@@ -2,37 +2,31 @@
 // 2025 / 1학기 STL
 // 6/19 목요일 15주2일 - 기말시험
 //----------------------------------------------------------------------------
-// 반복자 - 각 컨테이너가 자기가 관리하는 원소를 처음부터 끝까지 빠짐없이 순회 할 수 있도록
-//			제공하는 인터페이스
-// 컨테이너에 따라서(자료 구조가 서로 다르기 때문에) 반복자가 할 수 있는 일이 서로 다름
-// 
+// 반복자와 알고리즘
+// find
+// find_if
+// copy
 //----------------------------------------------------------------------------
 #include<iostream>
 #include"save.h"
 #include"STRING.h"
 using namespace std;
 //----------------------------------------------------------------------------
-#include<iterator>
 #include<algorithm>
+#include<vector>
 //----------------------------------------------------------------------------
 
 extern bool 관찰;
 
-//반복자는 서로 다르다 - 6개의 category
-
-template<class 반복자>
-void f(const 반복자& p)
-{
-	cout << typeid(반복자::iterator_category).name() << endl;
-
-}
-
 int main() {
-	STRING s{"the quick brown fox jumps over the lazy dog"};
-	sort(s.begin(), s.end());
-
-	cout << s;
+	STRING s("2025. 5. 26");
+	
+	vector<char> v;
+	
+	// [문제] s가 관리하는 문자들을 v에 복사하라
+	
+	//copy(s.begin(), s.end(), v.begin());
+	
 
 	//save("main.cpp");
 }
-
