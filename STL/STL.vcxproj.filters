@@ -35,6 +35,9 @@
     <Text Include="int 1000개를 메모리 그대로.txt">
       <Filter>리소스 파일</Filter>
     </Text>
+    <Text Include="이상한 나라의 앨리스.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h">

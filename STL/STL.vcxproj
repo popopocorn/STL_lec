@@ -139,6 +139,7 @@
     <Text Include="2025년 1학기 STL 강의저장.txt" />
     <Text Include="int 1000개.txt" />
     <Text Include="int 1000개를 메모리 그대로.txt" />
+    <Text Include="이상한 나라의 앨리스.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h" />
