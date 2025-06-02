@@ -116,7 +116,7 @@ STRING& STRING::operator=(STRING&& other)
 // 사전식 정렬을 위한 수정 < - 2025. 5. 15
 bool STRING::operator<(const STRING& rhs) const
 {
-	return std::lexicographical_compare(p.get(), p.get() + num, &rhs.p[0], &rhs.p[num]);
+	return std::lexicographical_compare(p.get(), p.get() + num, rhs.p.get(), rhs.p.get() + rhs.num);
 }
 
 bool STRING::operator==(const STRING& rhs) const 
