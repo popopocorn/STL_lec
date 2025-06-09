@@ -12475,3 +12475,681 @@ int main() {
 	cout << std::hash<string>{}("4444") << endl;
 	save("main.cpp");
 }
+
+==============================================================================================================================
+저장한 시간: 2025-06-09 오후 5:43:06, 월요일
+==============================================================================================================================
+
+//----------------------------------------------------------------------------
+// 2025 / 1학기 STL
+// 6/19 목요일 15주2일 - 기말시험
+//----------------------------------------------------------------------------
+// unordered associative container - hash 기반
+//----------------------------------------------------------------------------
+#include<iostream>
+#include"save.h"
+#include"STRING.h"
+using namespace std;
+//----------------------------------------------------------------------------
+#include<unordered_set>
+#include<string>
+//----------------------------------------------------------------------------
+
+extern bool 관찰;
+
+//const 일관성 - const consistency
+template<>
+struct hash<STRING> {
+	size_t operator()(const STRING& s) const {
+
+		return hash<std::string>{}(std::string(s.begin(), s.end()));//STRING을 std::string으로 바꾸면 가능하며 이상적이다
+	}
+};
+
+int main() {
+	unordered_set<STRING, hash<STRING>> us{"1", "22", "333", "4444"};
+	us.insert("55555");
+	for (const STRING& s : us)
+		cout << s << endl;
+	
+	save("main.cpp");
+
+}
+
+==============================================================================================================================
+저장한 시간: 2025-06-09 오후 5:53:18, 월요일
+==============================================================================================================================
+
+//----------------------------------------------------------------------------
+// 2025 / 1학기 STL
+// 6/19 목요일 15주2일 - 기말시험
+//----------------------------------------------------------------------------
+// unordered associative container - hash 기반
+//----------------------------------------------------------------------------
+#include<iostream>
+#include"save.h"
+#include"STRING.h"
+using namespace std;
+//----------------------------------------------------------------------------
+#include<unordered_set>
+#include<string>
+#include<print>
+//----------------------------------------------------------------------------
+
+extern bool 관찰;
+
+//const 일관성 - const consistency
+template<>
+struct hash<STRING> {
+	size_t operator()(const STRING& s) const {
+
+		return hash<std::string>{}(std::string(s.begin(), s.end()));//STRING을 std::string으로 바꾸면 가능하며 이상적이다
+	}
+};
+
+int main() {
+	save("main.cpp");
+	
+	unordered_set<STRING, hash<STRING>> us{"1", "22", "333", "4444"};
+
+	//언오더드셋의 메모리 구조를 그대로 출력한다
+	//vs에서는 vector[n] + list*m
+	
+	while (true){
+		for (size_t bc = 0; bc < us.bucket_count(); ++bc) {
+			print("[{:3}]", bc);
+			for (auto i = us.begin(bc); i != us.end(bc); ++i) {
+
+				print(" -> {}", std::string{i->begin(), i->end()});
+			}
+			cout << endl;
+
+		}
+		cout << "추가할 STRING을 입력 - ";
+		STRING s;
+		cin >> s;
+	}
+
+}
+
+==============================================================================================================================
+저장한 시간: 2025-06-09 오후 6:09:56, 월요일
+==============================================================================================================================
+
+//----------------------------------------------------------------------------
+// 2025 / 1학기 STL
+// 6/19 목요일 15주2일 - 기말시험
+//----------------------------------------------------------------------------
+// 컨테이너의 찾기실력
+// 1.vector
+// 2.set
+// 3.unorderedset
+//----------------------------------------------------------------------------
+#include<iostream>
+#include"save.h"
+#include"STRING.h"
+using namespace std;
+//----------------------------------------------------------------------------
+#include<array>
+#include<vector>
+#include<set>
+#include<unordered_set>
+#include<random>
+#include<chrono>
+#include<algorithm>
+//----------------------------------------------------------------------------
+extern bool 관찰;
+
+default_random_engine dre;
+uniform_int_distribution uid{ 1, 10'000'000 };
+
+const int NUM{ 10'000'000 };
+const int FNUM{ 10'000 };
+
+// int 천만개를 준비하여 이 중 만개가 천만개 중에 있는지 찾아본다
+array<int, NUM> a;
+array<int, FNUM> fa;
+
+
+int main() {
+	//데이터 준비
+	for (int& n : a)
+		n = uid(dre);
+	for (int& n : fa)
+		n = uid(dre);
+	{
+		vector<int> v(a.begin(), a.end());
+		cout << "vector " << v.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+		
+		//시간 시작
+		
+		for (int num : fa) {
+			auto p = find(v.begin(), v.end(), num);
+			if (p != v.end()) {
+				++cnt;
+			}
+		}
+		//시간 끝
+		cout << "찾은 수: " << cnt << endl;
+	}
+	
+	save("main.cpp");
+	
+}
+
+
+==============================================================================================================================
+저장한 시간: 2025-06-09 오후 6:30:04, 월요일
+==============================================================================================================================
+
+//----------------------------------------------------------------------------
+// 2025 / 1학기 STL
+// 6/19 목요일 15주2일 - 기말시험
+//----------------------------------------------------------------------------
+// 컨테이너의 찾기실력
+// 1.vector
+// 2.set
+// 3.unorderedset
+//----------------------------------------------------------------------------
+#include<iostream>
+#include"save.h"
+#include"STRING.h"
+using namespace std;
+//----------------------------------------------------------------------------
+#include<array>
+#include<vector>
+#include<set>
+#include<unordered_set>
+#include<random>
+#include<chrono>
+#include<algorithm>
+//----------------------------------------------------------------------------
+extern bool 관찰;
+
+default_random_engine dre;
+uniform_int_distribution uid{ 1, 10'000'000 };
+
+const int NUM{ 10'000'000 };
+const int FNUM{ 100'000 };
+
+// int 천만개를 준비하여 이 중 만개가 천만개 중에 있는지 찾아본다
+array<int, NUM> a;
+array<int, FNUM> fa;
+
+
+int main() {
+	//데이터 준비
+	for (int& n : a)
+		n = uid(dre);
+	for (int& n : fa)
+		n = uid(dre);
+
+	//vector
+	{
+		//cout << "--vector--\n";
+		//vector<int> v(a.begin(), a.end());
+		//cout << "vector " << v.size() << "개의 int 중에서 " << fa.size()
+		//	<< "개의 원소 찾기\n";
+		//size_t cnt{};
+		//
+		////시간 시작
+		//auto b = chrono::steady_clock::now();
+
+		//for (int num : fa) {
+		//	auto p = find(v.begin(), v.end(), num);
+		//	if (p != v.end()) {
+		//		++cnt;
+		//	}
+		//}
+		////시간 끝
+		//auto d = chrono::steady_clock::now() - b;
+
+		//cout << "찾은 수: " << cnt << endl;
+		//cout << "걸린 시간: " << d.count() << "ns" << endl;
+	}
+
+	//set
+	{
+		cout << "--set--\n";
+		multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d.count() <<"ns" << endl;
+	}
+	
+	//unordered set
+	{
+
+		cout << "--unordered_set--\n";
+		unordered_multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d.count() << "ns" << endl;
+	}
+
+	save("main.cpp");
+	
+}
+
+==============================================================================================================================
+저장한 시간: 2025-06-09 오후 6:37:55, 월요일
+==============================================================================================================================
+
+//----------------------------------------------------------------------------
+// 2025 / 1학기 STL
+// 6/19 목요일 15주2일 - 기말시험
+//----------------------------------------------------------------------------
+// 컨테이너의 찾기실력
+// 1.vector
+// 2.set
+// 3.unorderedset
+//----------------------------------------------------------------------------
+#include<iostream>
+#include"save.h"
+#include"STRING.h"
+using namespace std;
+//----------------------------------------------------------------------------
+#include<array>
+#include<vector>
+#include<set>
+#include<unordered_set>
+#include<random>
+#include<chrono>
+#include<algorithm>
+//----------------------------------------------------------------------------
+extern bool 관찰;
+
+default_random_engine dre;
+uniform_int_distribution uid{ 1, 10'000'000 };
+
+const int NUM{ 10'000'000 };
+const int FNUM{ 10'000 };
+
+// int 천만개를 준비하여 이 중 만개가 천만개 중에 있는지 찾아본다
+array<int, NUM> a;
+array<int, FNUM> fa;
+
+
+int main() {
+	//데이터 준비
+	for (int& n : a)
+		n = uid(dre);
+	for (int& n : fa)
+		n = uid(dre);
+
+	//vector
+	{
+		cout << "--vector--\n";
+		vector<int> v(a.begin(), a.end());
+		cout << "vector " << v.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+		
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+
+		for (int num : fa) {
+			auto p = find(v.begin(), v.end(), num);
+			if (p != v.end()) {
+				++cnt;
+			}
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	//set
+	{
+		cout << "--set--\n";
+		multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+	
+	//unordered set
+	{
+
+		cout << "--unordered_set--\n";
+		unordered_multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	save("main.cpp");
+	
+}
+
+==============================================================================================================================
+저장한 시간: 2025-06-09 오후 6:43:37, 월요일
+==============================================================================================================================
+
+//----------------------------------------------------------------------------
+// 2025 / 1학기 STL
+// 6/19 목요일 15주2일 - 기말시험
+//----------------------------------------------------------------------------
+// 컨테이너의 찾기실력
+// 1.vector
+// 2.set
+// 3.unorderedset
+//----------------------------------------------------------------------------
+#include<iostream>
+#include"save.h"
+#include"STRING.h"
+using namespace std;
+//----------------------------------------------------------------------------
+#include<array>
+#include<vector>
+#include<set>
+#include<unordered_set>
+#include<random>
+#include<chrono>
+#include<algorithm>
+//----------------------------------------------------------------------------
+extern bool 관찰;
+
+default_random_engine dre;
+uniform_int_distribution uid{ 1, 10'000'000 };
+
+const int NUM{ 10'000'000 };
+const int FNUM{ 10'000 };
+
+// int 천만개를 준비하여 이 중 만개가 천만개 중에 있는지 찾아본다
+array<int, NUM> a;
+array<int, FNUM> fa;
+
+
+int main() {
+	//데이터 준비
+	for (int& n : a)
+		n = uid(dre);
+	for (int& n : fa)
+		n = uid(dre);
+
+	//vector
+	{
+		cout << "--vector--\n";
+		vector<int> v(a.begin(), a.end());
+		cout << "vector " << v.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+		
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+
+		for (int num : fa) {
+			auto p = find(v.begin(), v.end(), num);
+			if (p != v.end()) {
+				++cnt;
+			}
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	//set
+	{
+		cout << "--set--\n";
+		multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+	
+	//unordered set
+	{
+
+		cout << "--unordered_set--\n";
+		unordered_multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	//정렬된 벡터의 찾기 신뢰도
+	{
+		cout << "--set--\n";
+		vector<int> v(a.begin(), a.end());
+		cout << "정렬한 벡터v " << v.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+		sort(v.begin(), v.end());
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			if (binary_search(v.begin(), v.end(), num))
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	save("main.cpp");
+	
+}
+
+==============================================================================================================================
+저장한 시간: 2025-06-09 오후 6:51:35, 월요일
+==============================================================================================================================
+
+//----------------------------------------------------------------------------
+// 2025 / 1학기 STL
+// 6/19 목요일 15주2일 - 기말시험
+//----------------------------------------------------------------------------
+// 컨테이너의 찾기실력
+// 1.vector			- X, sorted vector라면 3등
+// 2.set			- 2등
+// 3.unorderedset	- 1등
+//----------------------------------------------------------------------------
+#include<iostream>
+#include"save.h"
+#include"STRING.h"
+using namespace std;
+//----------------------------------------------------------------------------
+#include<array>
+#include<vector>
+#include<set>
+#include<unordered_set>
+#include<random>
+#include<chrono>
+#include<algorithm>
+//----------------------------------------------------------------------------
+extern bool 관찰;
+
+default_random_engine dre;
+uniform_int_distribution uid{ 1, 10'000'000 };
+
+const int NUM{ 10'000'000 };
+const int FNUM{ 10'000 };
+
+// int 천만개를 준비하여 이 중 만개가 천만개 중에 있는지 찾아본다
+array<int, NUM> a;
+array<int, FNUM> fa;
+
+
+int main() {
+	//데이터 준비
+	for (int& n : a)
+		n = uid(dre);
+	for (int& n : fa)
+		n = uid(dre);
+
+	//vector
+	{
+		cout << "--vector--\n";
+		vector<int> v(a.begin(), a.end());
+		cout << "vector " << v.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+		
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+
+		for (int num : fa) {
+			auto p = find(v.begin(), v.end(), num);
+			if (p != v.end()) {
+				++cnt;
+			}
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	//set
+	{
+		cout << "--set--\n";
+		multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+	
+	//unordered set
+	{
+
+		cout << "--unordered_set--\n";
+		unordered_multiset<int> s(a.begin(), a.end());
+		cout << "set " << s.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			auto p = s.find(num);
+			if (p != s.end())
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	//정렬된 벡터의 찾기 신뢰도
+	{
+		cout << "--set--\n";
+		vector<int> v(a.begin(), a.end());
+		cout << "정렬한 벡터v " << v.size() << "개의 int 중에서 " << fa.size()
+			<< "개의 원소 찾기\n";
+		size_t cnt{};
+		sort(v.begin(), v.end());
+		//시간 시작
+		auto b = chrono::steady_clock::now();
+		for (int num : fa) {
+			if (binary_search(v.begin(), v.end(), num))
+				++cnt;
+		}
+		//시간 끝
+		auto d = chrono::steady_clock::now() - b;
+
+		cout << "찾은 수: " << cnt << endl;
+		cout << "걸린 시간: " << d << endl;
+	}
+
+	save("main.cpp");
+	
+}
